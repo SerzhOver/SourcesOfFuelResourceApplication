@@ -20,6 +20,9 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    public void save(User user) {
+        userRepository.save(user);
+    }
 
     @Override
     public ApplicationUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

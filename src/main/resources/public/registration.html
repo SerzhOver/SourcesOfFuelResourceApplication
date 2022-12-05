@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Реєстрація</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <script type="text/javascript" th:src = "@{/js/registration.js}"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+</head>
+<body>
+<div class="main-w3layouts wrapper">
+    <h1>Вхід у додаток</h1>
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+            <form th:action="@{/users/addNew}" method="post">
+                <input id="username" class="text" type="email" name="username" placeholder="Username" required="">
+                <input id="password" class="text" type="password" name="password" placeholder="Password" required="">
+                <input id="confirmPassword" class="text" type="password" name="password" placeholder="Confirm Password"
+                       required="">
+                <input id="firstName" class="text" type="text" name="firstName" placeholder="First Name" required="">
+                <input id="lastName" class="text" type="text" name="lastName" placeholder="Last Name" required="">
+                <input type="submit" value="SIGNUP">
+            </form>
+            <p>Вже маєте аккаунт? <a href="/login"> Увійти!</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
