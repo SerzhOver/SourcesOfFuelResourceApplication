@@ -8,40 +8,8 @@
 <body>
 <div id="googleMap" style="height: 100%"></div>
 
-<div id="listing">
-    <table id="resultsTable">
-        <tbody id="results"></tbody>
-    </table>
-</div>
-
-<div style="display: none">
-    <div id="info-content">
-        <table>
-            <tr id="iw-url-row" class="iw_table_row">
-                <td id="iw-icon" class="iw_table_icon"></td>
-                <td id="iw-url"></td>
-            </tr>
-            <tr id="iw-address-row" class="iw_table_row">
-                <td class="iw_attribute_name">Address:</td>
-                <td id="iw-address"></td>
-            </tr>
-            <tr id="iw-phone-row" class="iw_table_row">
-                <td class="iw_attribute_name">Telephone:</td>
-                <td id="iw-phone"></td>
-            </tr>
-            <tr id="iw-rating-row" class="iw_table_row">
-                <td class="iw_attribute_name">Rating:</td>
-                <td id="iw-rating"></td>
-            </tr>
-            <tr id="iw-website-row" class="iw_table_row">
-                <td class="iw_attribute_name">Website:</td>
-                <td id="iw-website"></td>
-            </tr>
-        </table>
-    </div>
-</div>
 <script>
-    let map, infoWindow;
+    let map, infoWindow, currentPosition;
 
     function myMap() {
         var pyrmont = new google.maps.LatLng(50.4477313, 30.542721);
@@ -51,7 +19,6 @@
             zoom: 10
         });
         infoWindow = new google.maps.InfoWindow();
-
 
         const locationButton = document.createElement("button");
 
@@ -67,9 +34,9 @@
                             lng: position.coords.longitude,
                         };
 
+                        currentPosition = pos;
                         infoWindow.setPosition(pos);
-                        infoWindow.setContent("Моє місцеположення.");
-                        infoWindow.open(map);
+                        infoWindow.setContent("Моє місцезнаходження.");
                         map.setCenter(pos);
                         var service = new google.maps.places.PlacesService(map);
                         service.nearbySearch({
@@ -103,13 +70,12 @@
 
 
     function callback(results, status) {
-        var stationName = ['Ukrnafta' , 'WOG', 'ОККО' , 'AMIC' , 'Avias' , 'SOCAR' ]
+        const stationName = ['Ukrnafta', 'WOG', 'ОККО', 'AMIC', 'Avias', 'SOCAR', 'KLO', 'Shell', 'Glusco'];
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
+            for (let i = 0; i < results.length; i++) {
                 let strings = stationName.filter(name => JSON.stringify(results[i]).toString().includes(name));
 
                 if (JSON.stringify(results[i]).toString().includes('OPERATIONAL') && strings.length !== 0) {
-                    console.log(JSON.stringify(results[i]))
                     createMarker(results[i]);
                 }
             }
@@ -122,14 +88,74 @@
             map: map,
             position: place.geometry.location
         });
+        marker.setMap(map);
 
         google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(place.name);
-            infowindow.open(map, this);
+            let ratingHtml = "";
+            let distance = "";
+            let duration = "";
+            const service = new google.maps.DistanceMatrixService();
+            const request = {
+                origins: [currentPosition],
+                destinations: [placeLoc],
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC,
+                avoidHighways: false,
+                avoidTolls: false,
+            };
+
+            service.getDistanceMatrix(request).then((response) => {
+
+                distance = response.rows[0].elements[0].distance.text;
+                duration = response.rows[0].elements[0].duration.text;
+
+                for (let i = 0; i < 5; i++) {
+                    if (place.rating < i + 0.5) {
+                        ratingHtml += "&#10025;";
+                    } else {
+                        ratingHtml += "&#10029;";
+                    }
+                }
+
+                let name = place.name
+                let floor = ["", "", "", "", ""];
+
+                for (let i = 0; i < floor.length; i++) {
+                    let randomValue = Math.floor(Math.random() * 10);
+                    if (randomValue < 6) { // 0 ,1 , 2 ,3,4,5
+                        floor[i] = "&#128994 Достатньо"
+                    } else if (randomValue < 9 && randomValue >= 6) { //   6, 7, 8
+                        floor[i] = "&#128993 Мало на залишку";
+                    } else { //  9
+                        floor[i] = "&#128308 Відсутній";
+                    }
+                }
+
+
+                if (name.toString().includes('Ukrnafta')) {
+                    name = "Укрнафта"
+                }
+
+                const content = 'Назва: ' + name + '<br \/>' +
+                    'Адресса: ' + place.vicinity + '<br \/>' +
+                    'Рейтинг: ' + ratingHtml + '<br \/>' +
+                    'Відстань:' + distance + '<br \/>' +
+                    'Тривалість маршрута:' + duration + '<br \/>' +
+                    'A-95+: ' + floor[0] + '<br \/>' +
+                    'А-95: ' + floor[1] + '<br \/>' +
+                    'А-92: ' + floor[2] + '<br \/>' +
+                    'ДП: ' + floor[3] + '<br \/>' +
+                    'Газ: ' + floor[4] + '<br \/>';
+
+                infoWindow.setContent(content);
+                infoWindow.open(map, marker);
+            });
         });
     }
+
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCamscMCTgxzNuNz-5lHfQs4VOGgi35ow0&libraries=places&callback=myMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCamscMCTgxzNuNz-5lHfQs4VOGgi35ow0&libraries=places&callback=myMap"
+        defer></script>
 </body>
 </html>
