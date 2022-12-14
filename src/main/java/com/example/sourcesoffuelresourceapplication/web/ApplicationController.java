@@ -25,4 +25,9 @@ public class ApplicationController {
     public String registration() {
         return "registration";
     }
+
+    @GetMapping("/pay")
+    public String pay() {
+        return "pay";
+    }
 }

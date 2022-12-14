@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
->
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
 <head>
     <title>Home page</title>
     <link rel="stylesheet" type="text/css" href="css/home.css">
 </head>
 <body>
+<div sec:authorize="isAuthenticated()">
+    This content is only shown to authenticated users.
+</div>
 <div id="googleMap" style="height: 100%"></div>
 <script>
     let map, infoWindow, currentPosition;
@@ -20,9 +23,17 @@
         infoWindow = new google.maps.InfoWindow();
 
         const locationButton = document.createElement("button");
+        const buyTicket = document.createElement("button");
+
+        buyTicket.textContent="Перейти до купівлі купонів";
+        buyTicket.classList.add("custom-map-control-button");
+        buyTicket.addEventListener("click", () => {
+            window.location.href ='http://localhost:8080/pay';
+        });
 
         locationButton.textContent = "Відобразити моє місцезнаходження";
         locationButton.classList.add("custom-map-control-button");
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(buyTicket);
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
         locationButton.addEventListener("click", () => {
             if (navigator.geolocation) {
