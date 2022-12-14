@@ -22,13 +22,13 @@
     <div class="main-agileinfo">
         <div class="agileits-top">
             <form th:action="@{/users/addNew}" method="post">
-                <input id="username" class="text" type="email" name="username" placeholder="Username" required="">
-                <input id="password" class="text" type="password" name="password" placeholder="Password" required="">
-                <input id="confirmPassword" class="text" type="password" name="password" placeholder="Confirm Password"
+                <input id="username" class="text" type="email" name="username" placeholder="Email" required="">
+                <input id="password" class="text" type="password" name="password" placeholder="Пароль" required="">
+                <input id="confirmPassword" class="text" type="password" name="password" placeholder="Підтвердження паролю"
                        required="">
-                <input id="firstName" class="text" type="text" name="firstName" placeholder="First Name" required="">
-                <input id="lastName" class="text" type="text" name="lastName" placeholder="Last Name" required="">
-                <input type="submit" value="SIGNUP">
+                <input id="firstName" class="text" type="text" name="firstName" placeholder="Ім'я" required="">
+                <input id="lastName" class="text" type="text" name="lastName" placeholder="Прізвище" required="">
+                <input type="submit" value="ЗАРЕЄСТРУВАТИСЬ">
             </form>
             <p>Вже маєте аккаунт? <a href="/login"> Увійти!</a></p>
         </div>

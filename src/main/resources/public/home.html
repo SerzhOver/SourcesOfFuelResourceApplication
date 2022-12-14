@@ -7,7 +7,6 @@
 </head>
 <body>
 <div id="googleMap" style="height: 100%"></div>
-
 <script>
     let map, infoWindow, currentPosition;
 
@@ -33,6 +32,10 @@
                             lat: position.coords.latitude,
                             lng: position.coords.longitude,
                         };
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: pos
+                        });
 
                         currentPosition = pos;
                         infoWindow.setPosition(pos);
@@ -83,10 +86,12 @@
     }
 
     function createMarker(place) {
+        const image = "http://maps.google.com/mapfiles/ms/icons/gas.png"
         var placeLoc = place.geometry.location;
         var marker = new google.maps.Marker({
             map: map,
-            position: place.geometry.location
+            position: place.geometry.location,
+            icon: image
         });
         marker.setMap(map);
 
@@ -131,21 +136,24 @@
                     }
                 }
 
-
                 if (name.toString().includes('Ukrnafta')) {
                     name = "Укрнафта"
                 }
 
+                let urlLoc = "https://www.google.com/maps/dir/" + currentPosition.lat + "," + currentPosition.lng +
+                    "/" + placeLoc.lat() + "," + placeLoc.lng() + "/data=!3m1!4b1!4m2!4m1!3e0";
                 const content = 'Назва: ' + name + '<br \/>' +
-                    'Адресса: ' + place.vicinity + '<br \/>' +
+                    'Адреса: ' + place.vicinity + '<br \/>' +
                     'Рейтинг: ' + ratingHtml + '<br \/>' +
                     'Відстань:' + distance + '<br \/>' +
                     'Тривалість маршрута:' + duration + '<br \/>' +
-                    'A-95+: ' + floor[0] + '<br \/>' +
+                    'А-92: ' + floor[0] + '<br \/>' +
                     'А-95: ' + floor[1] + '<br \/>' +
-                    'А-92: ' + floor[2] + '<br \/>' +
+                    'A-95+: ' + floor[2] + '<br \/>' +
                     'ДП: ' + floor[3] + '<br \/>' +
-                    'Газ: ' + floor[4] + '<br \/>';
+                    'Газ: ' + floor[4] + '<br \/>' +
+                    'Відобразити маршрут до станції' + '<a href="' + urlLoc + '" > Показати маршрут </a>';
+
 
                 infoWindow.setContent(content);
                 infoWindow.open(map, marker);

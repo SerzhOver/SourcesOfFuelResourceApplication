@@ -4,7 +4,7 @@ $('document').ready(function(){
 
     function validatePassword(){
         if(password.value != confirmPassword.value) {
-            confirmPassword.setCustomValidity("Passwords Don't Match");
+            confirmPassword.setCustomValidity("Паролі не сходяться. Перевірте правильність введення");
         } else {
             confirmPassword.setCustomValidity('');
         }

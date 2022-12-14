@@ -1,4 +1,4 @@
-package com.example.sourcesoffuelresourceapplication.controller;
+package com.example.sourcesoffuelresourceapplication.web;
 
 import com.example.sourcesoffuelresourceapplication.model.User;
 import com.example.sourcesoffuelresourceapplication.service.UserService;
@@ -18,7 +18,7 @@ public class UserController {
     public RedirectView addNew(User user, RedirectAttributes redir) {
         userService.save(user);
         RedirectView  redirectView= new RedirectView("/login",true);
-        redir.addFlashAttribute("message", "You successfully registered! You can now login");
+        redir.addFlashAttribute("message", "Ви успішно зареєеструвались! Тепер ви можете увійти в свій аккаунт");
         return redirectView;
     }
 }
