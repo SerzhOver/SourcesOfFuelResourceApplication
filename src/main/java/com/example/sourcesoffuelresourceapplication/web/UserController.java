@@ -1,5 +1,6 @@
 package com.example.sourcesoffuelresourceapplication.web;
 
+import com.example.sourcesoffuelresourceapplication.model.Coupon;
 import com.example.sourcesoffuelresourceapplication.model.User;
 import com.example.sourcesoffuelresourceapplication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,17 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @PostMapping(value="users/addNew")
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping(value = "users/addNew")
     public RedirectView addNew(User user, RedirectAttributes redir) {
         userService.save(user);
-        RedirectView  redirectView= new RedirectView("/login",true);
+        RedirectView redirectView = new RedirectView("/login", true);
         redir.addFlashAttribute("message", "Ви успішно зареєеструвались! Тепер ви можете увійти в свій аккаунт");
         return redirectView;
     }

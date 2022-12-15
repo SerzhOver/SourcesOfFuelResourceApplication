@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="css/coupon.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta charset="UTF-8">
+    <title>Купівля купона</title>
+</head>
+<body>
+<form th:action="@{/coupon/addNew}" method="post">
+    <div class="formcontainer">
+        <div class="container">
+            <h3>Купівля купона</h3>
+            <input id="type" class="text" type="text" name="type" placeholder="Тип пального (А92/A95/A95+/Газ/ДП)"
+                   required="">
+            <input id="value" class="text" type="number" name="value" placeholder="Кількіть (max = 50) " required="">
+            <button type="submit">Підтвердити</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>

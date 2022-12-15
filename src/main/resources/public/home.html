@@ -6,9 +6,6 @@
     <link rel="stylesheet" type="text/css" href="css/home.css">
 </head>
 <body>
-<div sec:authorize="isAuthenticated()">
-    This content is only shown to authenticated users.
-</div>
 <div id="googleMap" style="height: 100%"></div>
 <script>
     let map, infoWindow, currentPosition;
@@ -28,7 +25,7 @@
         buyTicket.textContent="Перейти до купівлі купонів";
         buyTicket.classList.add("custom-map-control-button");
         buyTicket.addEventListener("click", () => {
-            window.location.href ='http://localhost:8080/pay';
+            window.location.href ='http://localhost:8080/my';
         });
 
         locationButton.textContent = "Відобразити моє місцезнаходження";

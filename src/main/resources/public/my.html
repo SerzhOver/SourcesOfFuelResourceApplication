@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="css/coupon.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta charset="UTF-8">
+    <title>Мої купони</title>
+</head>
+<body>
+<form>
+    <h3>Мої купони</h3>
+    <div class="formcontainer">
+        <hr/>
+        <table style="width:80%" border="1"
+               class="table table-striped table-responsive-md">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Тип</th>
+                <th>Кількість пального</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="coupon:${couponsList}">
+                <td th:text="${coupon.id}"></td>
+                <td th:text="${coupon.type}"></td>
+                <td th:text="${coupon.value}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <button  type="submit" class="btn btn-primary btn-sm mb-3" onclick="location.href='/coupon';">Придбати купони</button>
+    </div>
+</form>
+</body>
+</html>
